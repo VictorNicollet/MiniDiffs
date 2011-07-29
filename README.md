@@ -59,17 +59,19 @@ Also, this algorithm is designed for storage rather than human-friendly display.
 
 ## How it works
 
-The algorithm works on a statistical basis by associating identical two-character sequences between the source and destination. For example, the string `abXYefZW` would be associated to `ababef` as: 
+The algorithm works on a statistical basis by associating identical two-character sequences between the source and destination. For example, the string `The quick brown fox` would be associated to `Brown foxes are quick`
+    T  h  e     q  u  i  c  k     b  r  o  w  n     f  o  x
+    0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 
 
-    ab [0;2]
-    bX []
-    XY []
-    Ye []
-    ef [4]
-    fZ []
-    ZW []
-
-Here, the `ab` pair was associated with both pairs in the source text, the `ef` pair was associated with the equivalent in the source text, and all other pairs were missing. 
+    B  r  o  w  n     f  o  x  e  s     a  r  e     q  u  i  c  k
+      11 12 13 14 15 16 17                    2  3  4  5  6  7
+  
+    { new_text = "Besar" ;
+      changes  = [ FromNew 1 ;
+                   FromOld (10,7) ;
+                   FromNew 4 ;
+                   FromOld (-12,7) ]
+    }
 
 By using character pairs, it is very likely that some pairs will simply not be present, which readily identifies locations where a cut will necessairly happen (whether a move, deletion or insertion) and thus lets the algorithm concentrate independently on the pieces in-between such missing character pairs. Those pieces will also likely contain pairs that are unique in the source text, which is a very fast way to identify where a given piece of text might be coming from.
 
