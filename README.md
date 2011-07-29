@@ -30,6 +30,10 @@ For instance, to turn the string `abcdef` into the string `abXYefZW`, the instru
                    FromNew 2 ]
     }
 
+    // JSON:
+
+    ["XYZW",[0,2],2,[0,2],2]
+
 Note that the second `FromOld (0,2)` has a start offset of zero. This is because the offset is computed based on the position of the character being written, rather than the start of the string: the character at position 4 in the new string is also at position 4 in the old string, so the offset is zero. This helps keep the offset short even if the strings are long.
 
 In practice, however, the algorithm would notice that the diff is actually larger than the string, so the generated diff would probably be:
@@ -37,6 +41,9 @@ In practice, however, the algorithm would notice that the diff is actually large
     { new_text = "abXYefZW" ;
       changes  = [ FromNew 8 ]
     }
+
+    // JSON:
+    ["abXYefZW",8]
 
 ## Purpose
 
@@ -74,7 +81,10 @@ The algorithm works on a statistical basis by associating identical two-characte
                    FromOld (-12,7) ]
     }
 
-By using character pairs, it is very likely that some pairs will simply not be present, which readily identifies locations where a cut will necessairly happen (whether a move, deletion or insertion) and thus lets the algorithm concentrate independently on the pieces in-between such missing character pairs. Those pieces will also likely contain pairs that are unique in the source text, which is a very fast way to identify where a given piece of text might be coming from.
+    // JSON:
+    ["Besar",1,[10,7],4,[-12,7]]
+
+By using character pairs, it is very likely that some pairs will simply not be present, which readily identifies locations where a cut will necessairly happen (whether a move, deletion or insertion) and thus lets the algorithm concentrate independently on the pieces in-between such missing character pairs. Those pieces will also likely contain pairs that are unique in the source text, which is a very fast (actually, constant-time) way to identify where a given piece of text might be coming from.
 
 The algorithm uses these hints to identify reused pieces (which will become `FromOld` instructions) and missing pieces (which will become `FromNew` instructions). In some situations, there will be no unique pairs, which will cause the algorithm to guess a position. This behavior is not optimal, but is fairly infrequent on typical medium-sized human text, so correctly handling it was not part of the algorithm objectives (but you are free to try).
 
