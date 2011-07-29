@@ -32,6 +32,12 @@ For instance, to turn the string `abcdef` into the string `abXYefZW`, the instru
 
 Note that the second `FromOld (0,2)` has a start offset of zero. This is because the offset is computed based on the position of the character being written, rather than the start of the string: the character at position 4 in the new string is also at position 4 in the old string, so the offset is zero. This helps keep the offset short even if the strings are long.
 
+In practice, however, the algorithm would notice that the diff is actually larger than the string, so the generated diff would probably be:
+
+    { new_text = "abXYefZW" ;
+      changes  = [ FromNew 8 ]
+    }
+
 ## Purpose
 
 This diff algorithm was designed to serve in a CouchDB-based wiki application. As such, it was created with the following objectives in mind:
