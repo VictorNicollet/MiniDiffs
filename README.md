@@ -60,11 +60,12 @@ Also, this algorithm is designed for storage rather than human-friendly display.
 ## How it works
 
 The algorithm works on a statistical basis by associating identical two-character sequences between the source and destination. For example, the string `The quick brown fox` would be associated to `Brown foxes are quick`
+
     T  h  e     q  u  i  c  k     b  r  o  w  n     f  o  x
-    0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 
+     00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 
 
     B  r  o  w  n     f  o  x  e  s     a  r  e     q  u  i  c  k
-      11 12 13 14 15 16 17                    2  3  4  5  6  7
+        11 12 13 14 15 16 17                   02 03 04 05 06 07
   
     { new_text = "Besar" ;
       changes  = [ FromNew 1 ;
